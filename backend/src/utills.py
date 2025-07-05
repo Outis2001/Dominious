@@ -12,6 +12,8 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 import requests
 import json
 
+from spellchecker import SpellChecker
+
 load_dotenv(find_dotenv())
 api_key=os.environ.get("OPEN_API_KEY")
 llm = OpenAI(api_key=api_key,temperature=0.7)
@@ -45,8 +47,23 @@ if index_name not in existing_indexes:
 index = pc.Index(index_name)
 vector_store = PineconeVectorStore(index=index, embedding=embeddings)
 
+# Spell Checker ---> need to use SerpAPI for better results
+def check_spelling(text):
+    spell = SpellChecker()
+    words = text.split()
+    misspelled = spell.unknown(words)
+    
+    corrected_text = text
+    for word in misspelled:
+        # Get the most likely correction
+        correction = spell.correction(word)
+        if correction:
+            corrected_text = corrected_text.replace(word, correction)
+    
+    return corrected_text
 
 def RAG(user_query):
+    user_query = check_spelling(user_query)
     results = vector_store.similarity_search(query=user_query,k=20)
     categories = []
     domain_names = []
