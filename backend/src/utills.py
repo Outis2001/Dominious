@@ -70,12 +70,20 @@ def RAG(user_query):
     domain_names = [item for sublist in domain_names for item in sublist]
     short=domain_names[:15]
     result = ','.join(short)
+    print("----------------------------Categories----------------------------")
+    print(categories)
+    print("----------------------------Domain_names----------------------------")
+    print(domain_names)
     return result
 
-def preprocess():
+def preprocess(user_query):
     pass
 
 def generate_domains(user_description: str, sample_domains: str) -> str:
+    print("----------------------------User_query----------------------------")
+    print(user_description)
+    print("----------------------------Sample_domains----------------------------")
+    print(sample_domains)
     prompt = f"""
         You are an expert domain name generator. Your task is to create domain name suggestions that closely match the user's input and follow the style and pattern of the sample domain names provided.
 
