@@ -333,6 +333,8 @@ Phonetically Optimized Domain Names:
 
 def postprocessing(text):
     domain_names = re.findall(r'\d+\.\s+([a-zA-Z0-9]+)', text)
+    print("----------------------------Sample_domains----------------------------")
+    print(domain_names)
     return domain_names
 
 def final_domains():
